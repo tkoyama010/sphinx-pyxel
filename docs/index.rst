@@ -8,17 +8,6 @@ A Sphinx extension that embeds Pyxel apps in HTML documentation.
 
    shared
 
-Installation
-------------
-
-::
-
-    pip install sphinx-pyxel
-
-Enable it in ``conf.py``::
-
-    extensions = ["sphinx_pyxel"]
-
 Directive
 ---------
 
@@ -86,3 +75,14 @@ references it::
 
 See :doc:`shared` for an example where two pages embed the same app from the
 shared directory.
+
+Installation
+------------
+
+::
+
+    pip install sphinx-pyxel
+
+Enable it in ``conf.py``::
+
+    extensions = ["sphinx_pyxel"]
