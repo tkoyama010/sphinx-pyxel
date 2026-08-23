@@ -8,12 +8,6 @@ A Sphinx extension that embeds Pyxel apps in HTML documentation.
 
    shared
 
-Directive
----------
-
-``.. pyxel::`` copies a Pyxel app (``.py`` or ``.pyxapp``) into the build output
-and renders it with the official Pyxel web runtime.
-
 Run a Python app
 ----------------
 
@@ -75,6 +69,12 @@ references it::
 
 See :doc:`shared` for an example where two pages embed the same app from the
 shared directory.
+
+Directive
+---------
+
+``.. pyxel::`` copies a Pyxel app (``.py`` or ``.pyxapp``) into the build output
+and renders it with the official Pyxel web runtime.
 
 Installation
 ------------
