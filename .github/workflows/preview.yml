@@ -11,10 +11,19 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
   pull-requests: write
 
+# ponytail: deploys to the single GitHub Pages URL, clobbering prod if it is live.
+# Fine while Pages serves only PR previews. Drop the deploy job once prod Pages is
+# published from main; keep the artifact-only build job for PR previews then.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
-  preview:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,21 +33,34 @@ jobs:
       - uses: astral-sh/setup-uv@v3
       - run: uv pip install -e . --system
       - run: python -m sphinx -b html docs docs/_build/html
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-pages-artifact@v3
         with:
-          name: docs-preview-${{ github.event.pull_request.number }}
           path: docs/_build/html
-          retention-days: 14
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  comment:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/github-script@v7
         with:
           script: |
             const n = context.payload.pull_request.number;
-            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const body = `📖 Docs preview built. Download artifact \`docs-preview-${n}\` from [this run](${url}) and open \`index.html\` locally.`;
+            const url = `${{ needs.deploy.outputs.page_url }}`.replace(/\/$/, '');
+            const body = `📖 Live docs preview: ${url}`;
+            const marker = '<!--docs-preview-->';
             const { data: comments } = await github.rest.issues.listComments({
               ...context.repo, issue_number: n,
             });
-            const marker = '<!--docs-preview-->';
             const existing = comments.find(c => c.body.includes(marker));
             if (existing) {
               await github.rest.issues.updateComment({
