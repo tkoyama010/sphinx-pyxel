@@ -48,7 +48,7 @@ If your app loads external resources, copy them next to it:
 | Option     | Default                              | Description                                                       |
 |------------|--------------------------------------|-------------------------------------------------------------------|
 | `mode`     | `run` for `.py`, `play` for `.pyxapp`| `run` (just runs) or `play` (player controls, gamepad support).   |
-| `root`     | `.`                                  | Root path served relative to the HTML page.                       |
+| `root`     | `.` (or rel path to `pyxel_root`)    | Root path served relative to the HTML page.                       |
 | `name`     | basename of the argument             | File name served by the runtime.                                  |
 | `gamepad`  | unset                                | `enabled` or `disabled` (only meaningful for `play`).            |
 | `assets`   | unset                                | Comma-separated extra files to copy next to the app.              |
@@ -62,14 +62,26 @@ a `<pyxel-run>` (or `<pyxel-play>`) custom element plus the Pyxel web runtime
 script tag. The app runs entirely in the browser — no Python is executed by
 Sphinx.
 
+## Config value: `pyxel_root`
+
+Set ``pyxel_root`` in ``conf.py`` to collect every app into one shared
+directory under the HTML output instead of copying it next to each page that
+references it. Each emitted ``root`` then points from the page back at the
+shared directory, so an app reused across many pages is stored once.
+
+```python
+pyxel_root = "_pyxel"
+```
+
 ## Limitations
 
 - The embedded app only renders in the **HTML** builder. Other builders (LaTeX,
   man, text, etc.) emit a short note instead. This is expected: the Pyxel web
   runtime is JavaScript and only runs in a browser.
-- One file is copied next to each page that references it. Reusing the same app
-  across many pages duplicates the file; point `:root:` at a shared location and
-  copy the file yourself if that bothers you.
+- One file is copied next to each page that references it **unless**
+  ``pyxel_root`` is set, in which case apps are collected into one shared
+  directory. Two apps with the same basename under ``pyxel_root`` would
+  collide; give one a distinct ``:name:`` if that happens.
 
 ## License
 

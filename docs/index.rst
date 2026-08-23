@@ -3,6 +3,11 @@ sphinx-pyxel
 
 A Sphinx extension that embeds Pyxel apps in HTML documentation.
 
+.. toctree::
+   :maxdepth: 1
+
+   shared
+
 Installation
 ------------
 
@@ -40,7 +45,8 @@ Options
 
 ``root`` / ``name``
     Path served relative to the HTML page. Default copies the file next to the
-    page (``root="."``, ``name`` = basename).
+    page (``root="."``, ``name`` = basename); when ``pyxel_root`` is set, the
+    default ``root`` is the relative path from the page to the shared dir.
 
 ``gamepad``
     ``enabled`` or ``disabled``. Only meaningful for ``play``.
@@ -50,3 +56,15 @@ Options
 
 ``script``
     URL of the Pyxel web runtime. Defaults to the jsdelivr wasm build.
+
+Config value
+------------
+
+Set ``pyxel_root`` in ``conf.py`` to collect every app into one directory under
+the HTML output (e.g. ``_pyxel``) instead of copying it next to each page that
+references it::
+
+    pyxel_root = "_pyxel"
+
+See :doc:`shared` for an example where two pages embed the same app from the
+shared directory.

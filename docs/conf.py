@@ -8,6 +8,7 @@ author = "sphinx-pyxel contributors"
 release = "0.1.0"
 
 extensions = ["sphinx_pyxel"]
+pyxel_root = "_pyxel"
 master_doc = "index"
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 html_theme = "alabaster"

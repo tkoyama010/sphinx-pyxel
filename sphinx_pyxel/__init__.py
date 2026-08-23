@@ -14,12 +14,20 @@ Options:
     :mode: run | play  (auto-detected from extension; ``run`` for .py,
                        ``play`` for .pyxapp)
     :root:  root path served relative to the HTML page (default: copied
-            next to the page, so root is ".")
+            next to the page, so root is "."; when ``pyxel_root`` is set,
+            default is the relative path from the page to the shared dir)
     :name:  file name served (default: basename of the argument)
     :gamepad: enabled | disabled (only meaningful for ``play``)
     :assets: comma-separated extra files to copy next to the app
             (e.g. ``mygame.pyxres``)
     :script: URL of the Pyxel web runtime (default: the jsdelivr wasm build)
+
+Config value:
+    pyxel_root  -- directory under the HTML output where apps are collected
+                   (e.g. ``_pyxel``). When set, each app is copied there once
+                   instead of next to every page that references it, and the
+                   emitted ``root`` points back at it from each page. Default:
+                   unset (copy next to the page).
 
 Only the HTML builder embeds the runtime; other builders emit a note pointing
 at the app file name.
@@ -77,23 +85,36 @@ class PyxelDirective(SphinxDirective):
                            location=self.get_source_info())
             mode = "play" if ext == ".pyxapp" else "run"
 
-        # Copy the app (and any assets) next to the generated HTML page so the
-        # runtime can fetch them with a relative path.
         page_dir = self._page_dir()
-        os.makedirs(page_dir, exist_ok=True)
-        dest = os.path.join(page_dir, basename)
-        shutil.copyfile(abs_src, dest)
+        pyxel_root = self.env.config.pyxel_root
+        if pyxel_root:
+            # Collect apps into one shared dir under the output; emit a root
+            # relative to the page so the runtime can fetch them.
+            shared_dir = os.path.join(self.env.app.builder.outdir, pyxel_root)
+            os.makedirs(shared_dir, exist_ok=True)
+            dest = os.path.join(shared_dir, basename)
+            shutil.copyfile(abs_src, dest)
+            default_root = os.path.relpath(shared_dir, page_dir).replace(os.sep, "/")
+            asset_dir = shared_dir
+        else:
+            # Copy the app next to the generated HTML page so the runtime can
+            # fetch it with a relative path.
+            os.makedirs(page_dir, exist_ok=True)
+            dest = os.path.join(page_dir, basename)
+            shutil.copyfile(abs_src, dest)
+            default_root = "."
+            asset_dir = page_dir
 
         assets = [a.strip() for a in (self.options.get("assets") or "").split(",") if a.strip()]
         for asset in assets:
             a_rel, a_abs = self.env.relfn2path(asset)
             self.env.note_dependency(a_rel)
             if os.path.isfile(a_abs):
-                shutil.copyfile(a_abs, os.path.join(page_dir, os.path.basename(a_abs)))
+                shutil.copyfile(a_abs, os.path.join(asset_dir, os.path.basename(a_abs)))
             else:
                 logger.warning("pyxel: asset not found: %s", a_abs, location=self.get_source_info())
 
-        root = self.options.get("root", ".")
+        root = self.options.get("root", default_root)
         name = self.options.get("name", basename)
         script = self.options.get("script", DEFAULT_SCRIPT)
 
@@ -127,6 +148,7 @@ class PyxelDirective(SphinxDirective):
 def setup(app):
     app.add_directive("pyxel", PyxelDirective)
     app.add_node(nodes.container, override=True)
+    app.add_config_value("pyxel_root", None, "html")
     return {
         "version": __version__,
         "parallel_read_safe": False,  # we copy files during read
