@@ -1,8 +1,13 @@
 name: Publish to PyPI
 
+# Trigger on the v* tag push instead of the `release: published` event:
+# release-please creates the release with GITHUB_TOKEN, and GitHub does not
+# let GITHUB_TOKEN-fired events (except push/issue) spawn downstream workflows.
+# Tag pushes are exempt, so `push: tags` fires reliably.
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
 
 jobs:
