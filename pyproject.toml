@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/tetsuokoyama/sphinx-pyxel"
+Homepage = "https://github.com/tkoyama010/sphinx-pyxel"
 
 [tool.setuptools.packages.find]
 include = ["sphinx_pyxel*"]
