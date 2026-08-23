@@ -136,15 +136,16 @@ def draw_banner(g, font=None) -> None:
     # The Sphinx silhouette, blitted directly onto the background.
     g.set(LOGO_X, LOGO_Y, LOGO_DATA)
 
-    _draw_text(g, TITLE, TITLE_X, TITLE_Y, WHITE, NAVY, font)
+    _draw_text(g, TITLE, TITLE_X, TITLE_Y, BLACK, None, font)
 
 
 def _draw_text(g, s, x, y, col, bcol, font=None) -> None:
-    """Draw ``s`` with a 1px ``bcol`` outline (8-neighbour) + ``col`` fill."""
-    for dx in (-1, 0, 1):
-        for dy in (-1, 0, 1):
-            if dx or dy:
-                g.text(x + dx, y + dy, s, bcol, font)
+    """Draw ``s`` with an optional 1px ``bcol`` outline + ``col`` fill."""
+    if bcol is not None:
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                if dx or dy:
+                    g.text(x + dx, y + dy, s, bcol, font)
     g.text(x, y, s, col, font)
 
 
