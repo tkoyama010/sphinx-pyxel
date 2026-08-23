@@ -1,4 +1,6 @@
-# sphinx-pyxel
+<p align="center">
+  <img src="docs/_static/banner.png" alt="sphinx-pyxel banner">
+</p>
 
 A [Sphinx](https://www.sphinx-doc.org/) extension that embeds [Pyxel](https://github.com/kitao/pyxel) apps directly in your HTML documentation using the official Pyxel web runtime.
 
