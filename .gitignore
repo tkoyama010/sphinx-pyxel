@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Sphinx
+docs/_build/
+docs/_doctrees/
+
+# OS / editor
+.DS_Store
+Thumbs.db
