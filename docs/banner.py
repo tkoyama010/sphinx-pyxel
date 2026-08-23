@@ -30,8 +30,8 @@ W, H = 256, 80
 # Pyxel default palette indices.
 BG = 7          # banner background (off-white, the lightest Pyxel palette col)
 BLACK = 0       # sphinx silhouette
-NAVY = 1        # title fill (echoes the Pyxel logo's navy)
-GREY = 13       # title outline (a neutral grey, #83769c)
+NAVY = 1        # title outline (#2b335f, the Pyxel logo's dark color)
+WHITE = 7       # title fill (white-outlined text: navy outline, bg-colored fill)
 
 # Bundled pixel font (PixelMplus12, shipped with Pyxel's example assets).
 FONT_PATH = os.path.join(os.path.dirname(__file__), "assets", "PixelMplus12-Regular.ttf")
@@ -136,7 +136,7 @@ def draw_banner(g, font=None) -> None:
     # The Sphinx silhouette, blitted directly onto the background.
     g.set(LOGO_X, LOGO_Y, LOGO_DATA)
 
-    _draw_text(g, TITLE, TITLE_X, TITLE_Y, NAVY, GREY, font)
+    _draw_text(g, TITLE, TITLE_X, TITLE_Y, WHITE, NAVY, font)
 
 
 def _draw_text(g, s, x, y, col, bcol, font=None) -> None:
