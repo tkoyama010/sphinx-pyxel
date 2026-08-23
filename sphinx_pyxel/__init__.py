@@ -72,12 +72,15 @@ class PyxelDirective(SphinxDirective):
 
         if not os.path.isfile(abs_src):
             logger.warning(
-                "pyxel: file not found: %s", abs_src, location=self.get_source_info()
+                "pyxel: file not found: %s",
+                abs_src,
+                location=self.get_source_info(),
             )
             return [
                 self.state.document.reporter.warning(
-                    "pyxel: file not found: %s" % self.arguments[0], line=self.lineno
-                )
+                    "pyxel: file not found: %s" % self.arguments[0],
+                    line=self.lineno,
+                ),
             ]
 
         basename = os.path.basename(abs_src)
@@ -126,7 +129,9 @@ class PyxelDirective(SphinxDirective):
                 shutil.copyfile(a_abs, os.path.join(asset_dir, os.path.basename(a_abs)))
             else:
                 logger.warning(
-                    "pyxel: asset not found: %s", a_abs, location=self.get_source_info()
+                    "pyxel: asset not found: %s",
+                    a_abs,
+                    location=self.get_source_info(),
                 )
 
         root = self.options.get("root", default_root)
