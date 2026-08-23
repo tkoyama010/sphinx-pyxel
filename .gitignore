@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+
+# Sphinx
+docs/_build/
+docs/_doctrees/
+
+# Verification artifacts
+/*.png
+/videos/
+
+# uv
+uv.lock
+
+# OS / editor
+.DS_Store
+Thumbs.db
