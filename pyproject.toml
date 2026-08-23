@@ -21,8 +21,14 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/tkoyama010/sphinx-pyxel"
 
+[project.scripts]
+sphinx-pyxel = "sphinx_pyxel.cli:main"
+
 [tool.setuptools.packages.find]
 include = ["sphinx_pyxel*"]
+
+[tool.setuptools.package-data]
+sphinx_pyxel = ["assets/*.ttf"]
 
 [tool.ruff]
 target-version = "py310"
