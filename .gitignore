@@ -12,6 +12,7 @@ docs/_doctrees/
 
 # Verification artifacts
 /*.png
+/videos/
 
 # uv
 uv.lock
