@@ -63,6 +63,7 @@ class PyxelDirective(SphinxDirective):
         "gamepad": str,
         "assets": str,
         "script": str,
+        "height": str,
     }
 
     def run(self):
@@ -132,8 +133,35 @@ class PyxelDirective(SphinxDirective):
         script_tag = "" if script in emitted else f'<script src="{script}"></script>'
         emitted.add(script)
 
+        # Emit <div id="pyxel-screen"> once per page. The runtime's
+        # _createScreenElements does querySelector("div#pyxel-screen") first and
+        # only creates+appends-to-body if none exists, so placing it here makes
+        # the app render inline at the directive's location instead of taking
+        # over the whole page. The runtime only supports one screen per page,
+        # so a second directive on the same page reuses this div.
+        if not hasattr(self.env, "_pyxel_screens"):
+            self.env._pyxel_screens = set()
+        screen_div = "" if self.env.docname in self.env._pyxel_screens else '<div id="pyxel-screen"></div>'
+        self.env._pyxel_screens.add(self.env.docname)
+
+        # The runtime's own pyxel.css forces #pyxel-screen fullscreen. Override
+        # with higher specificity (.pyxel-app div#pyxel-screen) so it sizes to
+        # the container instead. Cascade order doesn't matter: specificity wins.
+        height = self.options.get("height", "480px")
+        style = (
+            '<style>'
+            '.pyxel-app{position:relative;width:100%;}'
+            f'.pyxel-app div#pyxel-screen{{position:relative;left:auto;top:auto;'
+            f'width:100%;height:{height};background-color:#202224;}}'
+            '.pyxel-app div#pyxel-screen canvas#canvas{position:relative;'
+            'left:auto;top:auto;width:100%;height:100%;}'
+            '</style>'
+        )
+
         html = (
             f'<div class="pyxel-app">'
+            f'{style}'
+            f'{screen_div}'
             f'{script_tag}'
             f'<{tag}{attrs}\n    ></{tag}>'
             f'</div>'
@@ -158,6 +186,9 @@ def _purge_doc(app, env, docname):
     scripts = getattr(env, "_pyxel_scripts", None)
     if scripts:
         scripts.pop(docname, None)
+    screens = getattr(env, "_pyxel_screens", None)
+    if screens:
+        screens.discard(docname)
 
 
 def setup(app):

@@ -24,6 +24,8 @@ def test_setup_registers_pyxel_root():
             pass
         def add_config_value(self, name, default, rebuild):
             self.config_values.append((name, default, rebuild))
+        def connect(self, event, handler):
+            self.config_values.append(("connect", event, handler))
     app = _App()
     setup(app)
     assert "pyxel" in app.directives

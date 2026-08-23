@@ -67,6 +67,10 @@ Options
 ``script``
     URL of the Pyxel web runtime. Defaults to the jsdelivr wasm build.
 
+``height``
+    CSS height of the inline app window (e.g. ``480px``, ``60vh``). Default
+    ``480px``. The app renders inline where the directive is written.
+
 Config value
 ------------
 

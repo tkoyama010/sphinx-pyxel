@@ -53,6 +53,7 @@ If your app loads external resources, copy them next to it:
 | `gamepad`  | unset                                | `enabled` or `disabled` (only meaningful for `play`).            |
 | `assets`   | unset                                | Comma-separated extra files to copy next to the app.              |
 | `script`   | jsdelivr wasm build                  | URL of the Pyxel web runtime script.                              |
+| `height`   | `480px`                              | CSS height of the inline app window.                              |
 
 ## How it works
 
@@ -61,6 +62,11 @@ During the build, the directive copies the referenced app file (and any
 a `<pyxel-run>` (or `<pyxel-play>`) custom element plus the Pyxel web runtime
 script tag. The app runs entirely in the browser — no Python is executed by
 Sphinx.
+
+The app renders **inline** at the location of the directive (not fullscreen):
+the extension places a ``#pyxel-screen`` container there and overrides the
+runtime's fullscreen CSS so the canvas fills that container. Set ``:height:``
+to control the window size.
 
 ## Config value: `pyxel_root`
 
