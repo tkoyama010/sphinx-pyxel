@@ -28,6 +28,10 @@ and renders it with the official Pyxel web runtime.
 Run a Python app
 ----------------
 
+::
+
+    .. pyxel:: hello.py
+
 .. pyxel:: hello.py
 
 Play a packaged app
