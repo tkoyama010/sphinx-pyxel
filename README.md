@@ -1,5 +1,3 @@
-# sphinx-pyxel
-
 <p align="center">
   <img src="docs/_static/banner.png" alt="sphinx-pyxel banner">
 </p>
