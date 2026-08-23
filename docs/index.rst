@@ -33,9 +33,19 @@ Run a Python app
 Play a packaged app
 -------------------
 
-.. pyxel:: hello.py
-   :mode: play
-   :gamepad: enabled
+Use ``:mode: play`` with a ``.pyxapp`` file (packaged with the Pyxel CLI ``pyxel
+package``). The ``play`` command only accepts ``.pyxapp`` files::
+
+    .. pyxel:: my_game.pyxapp
+       :mode: play
+       :gamepad: enabled
+
+One app per page
+----------------
+
+The Pyxel web runtime uses a single shared global context, so place at most one
+``.. pyxel::`` directive per page. Two apps on one page conflict and neither
+runs cleanly.
 
 Options
 -------

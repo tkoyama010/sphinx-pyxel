@@ -123,9 +123,18 @@ class PyxelDirective(SphinxDirective):
             attrs += f'\n      gamepad="{self.options["gamepad"]}"'
 
         tag = "pyxel-" + mode
+        # Emit the runtime <script> once per page per URL: the Pyxel runtime
+        # declares module-level consts, so loading it twice redeclares them and
+        # throws "Identifier 'PYODIDE_URL' has already been declared".
+        if not hasattr(self.env, "_pyxel_scripts"):
+            self.env._pyxel_scripts = {}
+        emitted = self.env._pyxel_scripts.setdefault(self.env.docname, set())
+        script_tag = "" if script in emitted else f'<script src="{script}"></script>'
+        emitted.add(script)
+
         html = (
             f'<div class="pyxel-app">'
-            f'<script src="{script}"></script>'
+            f'{script_tag}'
             f'<{tag}{attrs}\n    ></{tag}>'
             f'</div>'
         )
@@ -145,10 +154,17 @@ class PyxelDirective(SphinxDirective):
         return os.path.dirname(outname) or outdir
 
 
+def _purge_doc(app, env, docname):
+    scripts = getattr(env, "_pyxel_scripts", None)
+    if scripts:
+        scripts.pop(docname, None)
+
+
 def setup(app):
     app.add_directive("pyxel", PyxelDirective)
     app.add_node(nodes.container, override=True)
     app.add_config_value("pyxel_root", None, "html")
+    app.connect("env-purge-doc", _purge_doc)
     return {
         "version": __version__,
         "parallel_read_safe": False,  # we copy files during read

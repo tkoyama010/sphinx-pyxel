@@ -10,6 +10,12 @@ dist/
 docs/_build/
 docs/_doctrees/
 
+# Verification artifacts
+/*.png
+
+# uv
+uv.lock
+
 # OS / editor
 .DS_Store
 Thumbs.db
