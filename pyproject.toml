@@ -9,7 +9,7 @@ description = "Sphinx extension to embed Pyxel apps in HTML docs"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [{name = "sphinx-pyxel"}]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = ["Sphinx>=5"]
 keywords = ["sphinx", "pyxel", "extension", "sphinx-extension"]
 classifiers = [
