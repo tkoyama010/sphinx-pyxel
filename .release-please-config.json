@@ -1,0 +1,10 @@
+{
+  "packages": {
+    ".": {
+      "changelog-path": "CHANGELOG.md",
+      "release-type": "python",
+      "package-name": "sphinx-pyxel",
+      "include-component-in-tag": false
+    }
+  }
+}
