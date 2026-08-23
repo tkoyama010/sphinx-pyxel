@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sphinx-pyxel &#8212; sphinx-pyxel 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Multiple pages, one shared app" href="shared.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="sphinx-pyxel">
+<h1>sphinx-pyxel<a class="headerlink" href="#sphinx-pyxel" title="Link to this heading">¶</a></h1>
+<p>A Sphinx extension that embeds Pyxel apps in HTML documentation.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="shared.html">Multiple pages, one shared app</a></li>
+</ul>
+</div>
+<section id="run-a-python-app">
+<h2>Run a Python app<a class="headerlink" href="#run-a-python-app" title="Link to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">pyxel</span><span class="p">::</span> <span class="n">hello</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<div class="pyxel docutils container">
+<div class="pyxel-app"><style>.pyxel-app{position:relative;width:100%;}.pyxel-app div#pyxel-screen{position:relative;left:auto;top:auto;width:100%;height:480px;background-color:#202224;}.pyxel-app div#pyxel-screen canvas#canvas{position:relative;left:auto;top:auto;width:100%;height:100%;}</style><div id="pyxel-screen"></div><script src="https://cdn.jsdelivr.net/gh/kitao/pyxel/wasm/pyxel.js"></script><pyxel-run
+      root="_pyxel"
+      name="hello.py"
+    ></pyxel-run></div><p>Pyxel app (run): hello.py. View this page in the HTML build to play it.</p>
+</div>
+</section>
+<section id="play-a-packaged-app">
+<h2>Play a packaged app<a class="headerlink" href="#play-a-packaged-app" title="Link to this heading">¶</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">:mode:</span> <span class="pre">play</span></code> with a <code class="docutils literal notranslate"><span class="pre">.pyxapp</span></code> file (packaged with the Pyxel CLI <code class="docutils literal notranslate"><span class="pre">pyxel</span>
+<span class="pre">package</span></code>). The <code class="docutils literal notranslate"><span class="pre">play</span></code> command only accepts <code class="docutils literal notranslate"><span class="pre">.pyxapp</span></code> files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">pyxel</span><span class="p">::</span> <span class="n">my_game</span><span class="o">.</span><span class="n">pyxapp</span>
+   <span class="p">:</span><span class="n">mode</span><span class="p">:</span> <span class="n">play</span>
+   <span class="p">:</span><span class="n">gamepad</span><span class="p">:</span> <span class="n">enabled</span>
+</pre></div>
+</div>
+</section>
+<section id="one-app-per-page">
+<h2>One app per page<a class="headerlink" href="#one-app-per-page" title="Link to this heading">¶</a></h2>
+<p>The Pyxel web runtime uses a single shared global context, so place at most one
+<code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">pyxel::</span></code> directive per page. Two apps on one page conflict and neither
+runs cleanly.</p>
+</section>
+<section id="options">
+<h2>Options<a class="headerlink" href="#options" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">mode</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">run</span></code> (default for <code class="docutils literal notranslate"><span class="pre">.py</span></code>) or <code class="docutils literal notranslate"><span class="pre">play</span></code> (default for <code class="docutils literal notranslate"><span class="pre">.pyxapp</span></code>).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">root</span></code> / <code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Path served relative to the HTML page. Default copies the file next to the
+page (<code class="docutils literal notranslate"><span class="pre">root=&quot;.&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">name</span></code> = basename); when <code class="docutils literal notranslate"><span class="pre">pyxel_root</span></code> is set, the
+default <code class="docutils literal notranslate"><span class="pre">root</span></code> is the relative path from the page to the shared dir.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gamepad</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">enabled</span></code> or <code class="docutils literal notranslate"><span class="pre">disabled</span></code>. Only meaningful for <code class="docutils literal notranslate"><span class="pre">play</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">assets</span></code></dt><dd><p>Comma-separated extra files copied next to the app (e.g. <code class="docutils literal notranslate"><span class="pre">game.pyxres</span></code>).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">script</span></code></dt><dd><p>URL of the Pyxel web runtime. Defaults to the jsdelivr wasm build.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">height</span></code></dt><dd><p>CSS height of the inline app window (e.g. <code class="docutils literal notranslate"><span class="pre">480px</span></code>, <code class="docutils literal notranslate"><span class="pre">60vh</span></code>). Default
+<code class="docutils literal notranslate"><span class="pre">480px</span></code>. The app renders inline where the directive is written.</p>
+</dd>
+</dl>
+</section>
+<section id="config-value">
+<h2>Config value<a class="headerlink" href="#config-value" title="Link to this heading">¶</a></h2>
+<p>Set <code class="docutils literal notranslate"><span class="pre">pyxel_root</span></code> in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> to collect every app into one directory under
+the HTML output (e.g. <code class="docutils literal notranslate"><span class="pre">_pyxel</span></code>) instead of copying it next to each page that
+references it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyxel_root</span> <span class="o">=</span> <span class="s2">"_pyxel"</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="shared.html"><span class="doc">Multiple pages, one shared app</span></a> for an example where two pages embed the same app from the
+shared directory.</p>
+</section>
+<section id="directive">
+<h2>Directive<a class="headerlink" href="#directive" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">pyxel::</span></code> copies a Pyxel app (<code class="docutils literal notranslate"><span class="pre">.py</span></code> or <code class="docutils literal notranslate"><span class="pre">.pyxapp</span></code>) into the build output
+and renders it with the official Pyxel web runtime.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span><span class="o">-</span><span class="n">pyxel</span>
+</pre></div>
+</div>
+<p>Enable it in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"sphinx_pyxel"</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">sphinx-pyxel</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="shared.html">Multiple pages, one shared app</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="shared.html" title="next chapter">Multiple pages, one shared app</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
