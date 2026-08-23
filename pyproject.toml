@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sphinx-pyxel"
+version = "0.1.0"
+description = "Sphinx extension to embed Pyxel apps in HTML docs"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "sphinx-pyxel"}]
+requires-python = ">=3.8"
+dependencies = ["Sphinx>=5"]
+keywords = ["sphinx", "pyxel", "extension", "sphinx-extension"]
+classifiers = [
+    "Framework :: Sphinx :: Extension",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Homepage = "https://github.com/tetsuokoyama/sphinx-pyxel"
+
+[tool.setuptools.packages.find]
+include = ["sphinx_pyxel*"]
