@@ -38,17 +38,11 @@ python -m sphinx -b html docs docs/_build
 open docs/_build/index.html   # Pyxel app runs in the browser
 ```
 
-A self-check is included:
-```bash
-python test_sphinx_pyxel.py   # prints "ok"
-```
-
 ## Files
 
 - `sphinx_pyxel/__init__.py` — the directive + `setup()`
 - `pyproject.toml` — packaging metadata
 - `docs/` — example docs that embed a sample app (`docs/hello.py`)
-- `test_sphinx_pyxel.py` — minimal self-check
 - `README.md`, `LICENSE`
 
 ## Limitations / next steps
