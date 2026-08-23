@@ -1,7 +1,8 @@
-import os
+"""Sphinx configuration for the sphinx-pyxel example site."""
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 project = "sphinx-pyxel"
 author = "sphinx-pyxel contributors"
