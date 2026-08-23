@@ -39,8 +39,8 @@ import os
 import shutil
 
 from docutils import nodes
-from sphinx.util.docutils import SphinxDirective
 from sphinx.util import logging
+from sphinx.util.docutils import SphinxDirective
 
 __version__ = "0.1.0"
 
@@ -71,9 +71,14 @@ class PyxelDirective(SphinxDirective):
         self.env.note_dependency(rel_src)
 
         if not os.path.isfile(abs_src):
-            logger.warning("pyxel: file not found: %s", abs_src, location=self.get_source_info())
-            return [self.state.document.reporter.warning(
-                "pyxel: file not found: %s" % self.arguments[0], line=self.lineno)]
+            logger.warning(
+                "pyxel: file not found: %s", abs_src, location=self.get_source_info()
+            )
+            return [
+                self.state.document.reporter.warning(
+                    "pyxel: file not found: %s" % self.arguments[0], line=self.lineno
+                )
+            ]
 
         basename = os.path.basename(abs_src)
         ext = os.path.splitext(basename)[1].lower()
@@ -82,8 +87,11 @@ class PyxelDirective(SphinxDirective):
         if mode is None:
             mode = "play" if ext == ".pyxapp" else "run"
         if mode not in ("run", "play"):
-            logger.warning("pyxel: :mode: must be 'run' or 'play', got %r", mode,
-                           location=self.get_source_info())
+            logger.warning(
+                "pyxel: :mode: must be 'run' or 'play', got %r",
+                mode,
+                location=self.get_source_info(),
+            )
             mode = "play" if ext == ".pyxapp" else "run"
 
         page_dir = self._page_dir()
@@ -106,14 +114,20 @@ class PyxelDirective(SphinxDirective):
             default_root = "."
             asset_dir = page_dir
 
-        assets = [a.strip() for a in (self.options.get("assets") or "").split(",") if a.strip()]
+        assets = [
+            a.strip()
+            for a in (self.options.get("assets") or "").split(",")
+            if a.strip()
+        ]
         for asset in assets:
             a_rel, a_abs = self.env.relfn2path(asset)
             self.env.note_dependency(a_rel)
             if os.path.isfile(a_abs):
                 shutil.copyfile(a_abs, os.path.join(asset_dir, os.path.basename(a_abs)))
             else:
-                logger.warning("pyxel: asset not found: %s", a_abs, location=self.get_source_info())
+                logger.warning(
+                    "pyxel: asset not found: %s", a_abs, location=self.get_source_info()
+                )
 
         root = self.options.get("root", default_root)
         name = self.options.get("name", basename)
@@ -141,7 +155,11 @@ class PyxelDirective(SphinxDirective):
         # so a second directive on the same page reuses this div.
         if not hasattr(self.env, "_pyxel_screens"):
             self.env._pyxel_screens = set()
-        screen_div = "" if self.env.docname in self.env._pyxel_screens else '<div id="pyxel-screen"></div>'
+        screen_div = (
+            ""
+            if self.env.docname in self.env._pyxel_screens
+            else '<div id="pyxel-screen"></div>'
+        )
         self.env._pyxel_screens.add(self.env.docname)
 
         # The runtime's own pyxel.css forces #pyxel-screen fullscreen. Override
@@ -149,30 +167,31 @@ class PyxelDirective(SphinxDirective):
         # the container instead. Cascade order doesn't matter: specificity wins.
         height = self.options.get("height", "480px")
         style = (
-            '<style>'
-            '.pyxel-app{position:relative;width:100%;}'
-            f'.pyxel-app div#pyxel-screen{{position:relative;left:auto;top:auto;'
-            f'width:100%;height:{height};background-color:#202224;}}'
-            '.pyxel-app div#pyxel-screen canvas#canvas{position:relative;'
-            'left:auto;top:auto;width:100%;height:100%;}'
-            '</style>'
+            "<style>"
+            ".pyxel-app{position:relative;width:100%;}"
+            f".pyxel-app div#pyxel-screen{{position:relative;left:auto;top:auto;"
+            f"width:100%;height:{height};background-color:#202224;}}"
+            ".pyxel-app div#pyxel-screen canvas#canvas{position:relative;"
+            "left:auto;top:auto;width:100%;height:100%;}"
+            "</style>"
         )
 
         html = (
             f'<div class="pyxel-app">'
-            f'{style}'
-            f'{screen_div}'
-            f'{script_tag}'
-            f'<{tag}{attrs}\n    ></{tag}>'
-            f'</div>'
+            f"{style}"
+            f"{screen_div}"
+            f"{script_tag}"
+            f"<{tag}{attrs}\n    ></{tag}>"
+            f"</div>"
         )
 
         container = nodes.container(classes=["pyxel"])
         container += nodes.raw("", html, format="html")
         # Fallback for non-HTML builders.
         container += nodes.paragraph(
-            "", f"Pyxel app ({mode}): {name}. "
-            "View this page in the HTML build to play it."
+            "",
+            f"Pyxel app ({mode}): {name}. "
+            "View this page in the HTML build to play it.",
         )
         return [container]
 
