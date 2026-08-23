@@ -174,6 +174,10 @@ def main() -> None:
 
     pyxel.init(W, H)
 
+    # Match the banner background (palette 7) to pure white so it blends
+    # into GitHub's README body color.
+    pyxel.colors[7] = 0xFFFFFF
+
     _font = pyxel.Font(FONT_PATH, FONT_SIZE)
 
     if save:
