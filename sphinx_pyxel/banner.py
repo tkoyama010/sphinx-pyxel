@@ -24,7 +24,7 @@ BLACK = 0       # sphinx silhouette + title fill
 
 # Bundled pixel font (PixelMplus12, shipped with Pyxel's example assets).
 FONT_PATH = Path(__file__).parent / "assets" / "PixelMplus12-Regular.ttf"
-FONT_SIZE = 20
+FONT_SIZE = 10
 TITLE = "sphinx-pyxel"
 
 # 100x75 trace of the Sphinx-docs logo SVG, one string per row.
