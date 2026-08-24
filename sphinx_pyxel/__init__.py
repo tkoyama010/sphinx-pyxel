@@ -1,3 +1,4 @@
+# Copyright (c) 2025 sphinx-pyxel contributors
 """Sphinx extension to embed Pyxel apps in HTML documentation.
 
 Provides the ``pyxel`` directive, which copies a Pyxel app (a ``.py`` file or a

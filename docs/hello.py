@@ -1,3 +1,4 @@
+# Copyright (c) 2025 sphinx-pyxel contributors
 """Minimal Pyxel app embedded by the sphinx-pyxel example docs."""
 import pyxel
 

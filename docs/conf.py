@@ -1,3 +1,4 @@
+# Copyright (c) 2025 sphinx-pyxel contributors
 """Sphinx configuration for the sphinx-pyxel example site."""
 import sys
 from pathlib import Path
