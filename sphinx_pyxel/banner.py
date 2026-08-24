@@ -16,7 +16,7 @@ from pathlib import Path
 
 import pyxel
 
-W, H = 256, 80
+W, H = 128, 40
 
 # Pyxel default palette indices.
 BG = 7          # banner background (remapped to pure white by the CLI)
@@ -30,7 +30,7 @@ TITLE = "sphinx-pyxel"
 # 50x38 trace of the Sphinx-docs logo SVG, one string per row.
 # '0' = black silhouette, '7' = palette 7 (matches the banner background) so
 # the silhouette sits directly on the white banner with no framing square.
-LOGO_X, LOGO_Y = 8, 3
+LOGO_X, LOGO_Y = 4, 2
 LOGO_W, LOGO_H = 50, 38
 LOGO_DATA = [
     "77777777777777777777777777777777777777777777777777",
@@ -74,7 +74,7 @@ LOGO_DATA = [
 ]
 
 
-TITLE_X = 128
+TITLE_X = 64
 TITLE_Y = (H - FONT_SIZE) // 2
 
 
