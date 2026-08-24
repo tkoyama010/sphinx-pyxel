@@ -34,9 +34,19 @@ def _run_banner(args: argparse.Namespace) -> None:
     font = banner.load_font()
 
     if save:
-        img = pyxel.Image(banner.W, banner.H)
-        banner.draw_banner(img, font)
-        img.save(str(save), args.scale)
+        # Compose PNG: logo at native resolution (scaled by --scale),
+        # title text at 8× resolution for crisp readability.
+        text_scale = args.scale
+        font_hi = banner.load_font(banner.FONT_SIZE * text_scale)
+        out = pyxel.Image(banner.W * args.scale, banner.H * args.scale)
+        out.cls(banner.BG)
+        logo = pyxel.Image(banner.W, banner.H)
+        banner.draw_logo(logo)
+        out.blt(0, 0, logo, 0, 0, banner.W, banner.H, args.scale)
+        tx = banner.TITLE_X * args.scale
+        ty = banner.TITLE_Y * args.scale
+        out.text(tx, ty, banner.TITLE, banner.BLACK, font_hi)
+        out.save(str(save), 1)
         print(f"saved {save}")  # noqa: T201
         return
 
