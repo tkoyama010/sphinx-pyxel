@@ -14,9 +14,8 @@ the PNG blends into GitHub's README body color.
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
-
 import ctypes
+from pathlib import Path
 
 import pyxel
 
