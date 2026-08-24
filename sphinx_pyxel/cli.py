@@ -15,6 +15,7 @@ the PNG blends into GitHub's README body color.
 from __future__ import annotations
 
 import argparse
+import ctypes
 from pathlib import Path
 
 import pyxel
@@ -35,9 +36,31 @@ def _run_banner(args: argparse.Namespace) -> None:
     font = banner.load_font()
 
     if save:
-        img = pyxel.Image(banner.W, banner.H)
-        banner.draw_banner(img, font)
-        img.save(str(save), args.scale)
+        # Compose PNG: logo at native resolution (scaled by --scale),
+        # title text at --scale-x resolution for crisp readability.
+        scale = args.scale
+        font_hi = banner.load_font(banner.FONT_SIZE * scale)
+        out = pyxel.Image(banner.W * scale, banner.H * scale)
+        out.cls(banner.BG)
+        # Blit the logo manually: blt's scale param doesn't enlarge
+        # pixels, so copy each source pixel as a scale-by-scale block.
+        logo = pyxel.Image(banner.W, banner.H)
+        banner.draw_logo(logo)
+
+        lptr = logo.data_ptr()
+        lbuf = bytes(ctypes.string_at(lptr, banner.W * banner.H))
+        for ly in range(banner.H):
+            for lx in range(banner.W):
+                col = lbuf[ly * banner.W + lx]
+                if col == banner.BG:
+                    continue
+                for dy in range(scale):
+                    for dx in range(scale):
+                        out.pset(lx * scale + dx, ly * scale + dy, col)
+        tx = banner.TITLE_X * scale
+        ty = banner.TITLE_Y * scale
+        out.text(tx, ty, banner.TITLE, banner.BLACK, font_hi)
+        out.save(str(save), 1)
         print(f"saved {save}")  # noqa: T201
         return
 
