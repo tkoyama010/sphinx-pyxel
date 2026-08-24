@@ -1,3 +1,4 @@
+# Copyright (c) 2025 sphinx-pyxel contributors
 """Command-line interface for sphinx-pyxel.
 
 Usage::

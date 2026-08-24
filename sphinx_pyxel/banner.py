@@ -1,3 +1,4 @@
+# Copyright (c) 2025 sphinx-pyxel contributors
 """Sphinx-logo banner drawn with Pyxel.
 
 The Sphinx-docs logo (a black sphinx silhouette, traced from
