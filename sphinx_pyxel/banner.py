@@ -59,13 +59,18 @@ TITLE_X = 32
 TITLE_Y = (H - FONT_SIZE) // 2
 
 
-def draw_banner(g: pyxel.Image, font: pyxel.Font | None = None) -> None:
-    """Draw the banner onto ``g`` (the Pyxel screen or an image bank)."""
+def draw_logo(g: pyxel.Image) -> None:
+    """Draw the Sphinx-logo silhouette onto ``g``."""
     g.cls(BG)
     g.set(LOGO_X, LOGO_Y, LOGO_DATA)
+
+
+def draw_banner(g: pyxel.Image, font: pyxel.Font | None = None) -> None:
+    """Draw the banner onto ``g`` (the Pyxel screen or an image bank)."""
+    draw_logo(g)
     g.text(TITLE_X, TITLE_Y, TITLE, BLACK, font)
 
 
-def load_font() -> pyxel.Font:
-    """Load the bundled PixelMplus12 font at the banner size."""
-    return pyxel.Font(str(FONT_PATH), FONT_SIZE)
+def load_font(size: int = FONT_SIZE) -> pyxel.Font:
+    """Load the bundled PixelMplus12 font at the given size."""
+    return pyxel.Font(str(FONT_PATH), size)
