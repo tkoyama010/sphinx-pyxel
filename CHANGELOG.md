@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/tkoyama010/sphinx-pyxel/compare/v0.2.0...v0.3.0) (2026-08-24)
+
+
+### Features
+
+* render banner text at 8× resolution, logo stays native ([#19](https://github.com/tkoyama010/sphinx-pyxel/issues/19)) ([73a67d1](https://github.com/tkoyama010/sphinx-pyxel/commit/73a67d16cd70e007a6ac44b9191235020d75f082))
+
 ## [0.2.0](https://github.com/tkoyama010/sphinx-pyxel/compare/v0.1.0...v0.2.0) (2026-08-23)
 
 

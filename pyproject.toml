@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sphinx-pyxel"
-version = "0.2.0"
+version = "0.3.0"
 description = "Sphinx extension to embed Pyxel apps in HTML docs"
 readme = "README.md"
 license = {text = "MIT"}
